@@ -1,0 +1,56 @@
+# Virtual environments
+env/
+venv/
+.env/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Data files
+data/
+*.csv
+*.json
+*.xlsx
+*.pkl
+
+# MLflow
+mlruns/
+mlflow.db
+
+# Models
+models/
+deployed_model/
+*.joblib
+*.h5
+
+# Logs and temp files
+logs/
+*.log
+pipeline.log
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+
+# Plots and images
+plots/
+drift_plots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Distribution / packaging
+.DS_Store
+dist/
+build/
+*.egg-info/

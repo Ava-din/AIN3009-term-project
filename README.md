@@ -1,154 +1,103 @@
-# Diabetes Prediction MLOps Project
+# MLFlow Diabetes Classification
 
-A machine learning operations (MLOps) project for diabetes prediction based on the UCI Diabetes Dataset.
+This project implements a machine learning-based diabetes prediction system using MLflow for model management and Streamlit for the web interface. The system predicts whether a patient is at risk of diabetes based on various health metrics.
 
-## Project Overview
+## Features
 
-This project implements a complete MLOps pipeline for diabetes prediction, including:
+- Interactive web interface for diabetes risk prediction
+- MLflow integration for model tracking and serving
+- Real-time predictions using a trained machine learning model
+- Input validation for patient health metrics
 
-- Data acquisition and preprocessing
-- Model training and hyperparameter tuning
-- Model evaluation and deployment
-- Model monitoring and drift detection
-- Interactive web application for predictions
+## Prerequisites
 
-## Directory Structure
+- Python 3.7+
+- pip (Python package installer)
+- MLflow server running locally
 
-```
-├── app                     # Streamlit web application
-├── data                    # Data directory
-├── drift_plots             # Data drift monitoring plots
-├── mlruns                  # MLflow tracking data
-├── models                  # Saved model files
-├── notebooks               # Jupyter notebooks for exploration
-├── src                     # Source code
-│   ├── data                # Data processing scripts
-│   ├── evaluation          # Model evaluation scripts
-│   ├── models              # Model training and deployment
-│   ├── monitoring          # Model monitoring and drift detection
-│   └── utils               # Utility functions
-├── run_pipeline.py         # Main pipeline runner
-└── requirements.txt        # Project dependencies
-```
-
-## Setup and Installation
+## Installation
 
 1. Clone the repository:
-
 ```bash
-git clone https://github.com/Ava-din/AIN3009-term-project.git
-cd mlops-project
+git clone <repository-url>
+cd MLFlowDiabetesClassification
 ```
 
 2. Create and activate a virtual environment:
-
 ```bash
 python -m venv env
-source env/bin/activate  # On Windows: env\Scripts\activate
+source env/bin/activate  # On Windows, use: env\Scripts\activate
 ```
 
-3. Install dependencies:
-
+3. Install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-## Running the Pipeline
+## Project Structure
 
-The entire MLOps pipeline can be executed with a single command:
-
-```bash
-python run_pipeline.py
+```
+MLFlowDiabetesClassification/
+├── app.py              # Streamlit web application
+├── requirements.txt    # Project dependencies
+├── scripts/           # Utility scripts
+├── config/           # Configuration files
+├── data/             # Dataset directory
+└── mlruns/           # MLflow tracking directory
 ```
 
-This will run the following steps sequentially:
-1. Download the diabetes dataset
-2. Preprocess the data
-3. Train multiple models
-4. Perform hyperparameter tuning
-5. Evaluate model performance
-6. Deploy the best model to production
-7. Set up model monitoring
-
-## Web Application
-
-The project includes a Streamlit web application for making predictions:
-
+## Usage
+1. Run the following scripts
 ```bash
-streamlit run app/streamlit_app.py
+python scripts/preprocess.py
+```
+```bash
+python scripts/train_model.py
+```
+```bash
+python scripts/tune_model.py
+```
+```bash
+python scripts/register_and_transistion.py
 ```
 
-The app allows users to:
-- Input patient information
-- Get diabetes risk predictions
-- View feature importance
-- Monitor model performance over time
-
-## MLflow Tracking
-
-All experiments are tracked using MLflow:
-
+2. Start the MLflow model server:
 ```bash
-mlflow ui
+mlflow models serve -m models:/Diabetes_RF_Model/Production -p 1234
 ```
 
-This will start the MLflow UI where you can:
-- Compare model performance
-- View hyperparameter configurations
-- See evaluation metrics
-- Manage model versions
+3. Run the Streamlit application:
+```bash
+streamlit run app.py
+```
 
-## Model Monitoring
+3. Open your web browser and navigate to the URL shown in the terminal (typically http://localhost:8501)
 
-The project includes a monitoring system that:
-- Detects data drift
-- Tracks model performance over time
-- Generates alerts when performance degrades
-- Creates visualizations of model and data health
+4. Enter the patient's health metrics in the web interface:
+   - Pregnancies
+   - Glucose level
+   - Blood pressure
+   - Skin thickness
+   - Insulin level
+   - BMI
+   - Diabetes pedigree function
+   - Age
 
-## Project Components
+5. Click the "Predict" button to get the diabetes risk prediction
 
-### Data Processing
+## Input Parameters
 
-- `download_data.py`: Downloads the UCI Diabetes Dataset
-- `preprocess.py`: Cleans and transforms the data, creates train/test splits
+- **Pregnancies**: Number of times pregnant (0-20)
+- **Glucose**: Plasma glucose concentration (0-200 mg/dL)
+- **Blood Pressure**: Diastolic blood pressure (0-150 mm Hg)
+- **Skin Thickness**: Triceps skin fold thickness (0-100 mm)
+- **Insulin**: 2-Hour serum insulin (0-900 mu U/ml)
+- **BMI**: Body mass index (0-70 kg/m²)
+- **Diabetes Pedigree Function**: Diabetes pedigree function (0-3)
+- **Age**: Age in years (0-120)
 
-### Model Training
+## Model Information
 
-- `train.py`: Trains multiple models (Random Forest, Gradient Boosting, etc.)
-- `hyperparameter_tuning.py`: Uses Hyperopt for hyperparameter optimization
-
-### Model Evaluation
-
-- Evaluates models on test data
-- Calculates metrics like accuracy, ROC AUC, precision, recall
-- Generates performance reports
-
-### Model Deployment
-
-- `deploy.py`: Registers the best model in MLflow Model Registry
-- Transitions models through staging to production
-
-### Model Monitoring
-
-- `monitor.py`: Sets up continuous monitoring
-- Detects data drift and model performance degradation
-- Generates alerts and visualizations
-
-## Configuration
-
-The project configuration is in `src/config.py`, which includes:
-- File paths
-- MLflow settings
-- Model training parameters
-- Monitoring thresholds
-
-## Tech Stack
-
-- **Python**: Core programming language
-- **Scikit-learn**: Machine learning models
-- **Pandas & NumPy**: Data processing
-- **MLflow**: Experiment tracking and model registry
-- **Hyperopt**: Hyperparameter optimization
-- **Streamlit**: Web application
-- **Matplotlib & Seaborn**: Visualization
+The prediction model is served through MLflow and provides binary classification results:
+- 1: Diabetic
+- 0: Non-Diabetic
